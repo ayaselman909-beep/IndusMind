@@ -16,8 +16,8 @@ After Download the zip file create Folder his name is "Dataset" and extract the 
 * **Tool wear [min]:** The continuous operational time causing wear and tear on the cutting tool (in minutes).
 
 # Failure Types (Targets):
-  **TWF (Tool Wear Failure):** Machine downtime or failure caused by complete wear or breakage of the tool.
-  **HDF (Heat Dissipation Failure):** Failure due to severe overheating and the cooling system's inability to dissipate the heat.
-  **PWF (Power Failure):** Failure caused by a sudden drop or disruption in the required operational power.
-  **OSF (Overstrain Failure):** Failure resulting from excessive load, pressure, or strain beyond the machine's capacity.
-  **RNF (Random Failures):** Unpredictable, rare, or random machine failures that do not fall under the other specific categories.
+* **TWF (Tool Wear Failure):** Machine downtime or failure caused by complete wear or breakage of the tool.
+* **HDF (Heat Dissipation Failure):** Failure due to severe overheating and the cooling system's inability to dissipate the heat.
+* **PWF (Power Failure):** Failure caused by a sudden drop or disruption in the required operational power.
+* **OSF (Overstrain Failure):** Failure resulting from excessive load, pressure, or strain beyond the machine's capacity.
+* **RNF (Random Failures):** Unpredictable, rare, or random machine failures that do not fall under the other specific categories.

@@ -25,11 +25,11 @@ class MachineInputData:
     rotational_speed: int
     torque: float
     tool_wear: int
-    twf: int  # Tool Wear Failure
-    hdf: int  # Heat Dissipation Failure
-    pwf: int  # Power Failure
-    osf: int  # Overstrain Failure
-    rnf: int  # Random Failures
+    twf: int  
+    hdf: int  
+    pwf: int  
+    osf: int  
+    rnf: int  
 
 @dataclass
 class SystemOutputResult:

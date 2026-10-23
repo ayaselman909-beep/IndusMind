@@ -21,3 +21,23 @@ After Download the zip file create Folder his name is "Dataset" and extract the 
 * **PWF (Power Failure):** Failure caused by a sudden drop or disruption in the required operational power.
 * **OSF (Overstrain Failure):** Failure resulting from excessive load, pressure, or strain beyond the machine's capacity.
 * **RNF (Random Failures):** Unpredictable, rare, or random machine failures that do not fall under the other specific categories.
+
+# IndusMind - Week 1: Data & System Design
+
+This repository contains the work for **Week 1** of the IndusMind project, focusing on system architecture, dataset configuration, and pipeline design[cite: 2].
+
+## 🛠️ What Was Done (Week 1 Deliverables)
+- **Dataset Setup:** Configured and verified the `2020 AI4I` dataset (`Dataset/ai4i2020.csv`) to ensure all 10,000 records are processed correctly[cite: 2].
+- **System Architecture:** Designed the foundational system architecture and processing pipeline (`Code/architecture_pipeline.py`)[cite: 2].
+- **Inputs & Outputs Defined:** 
+  - **Inputs:** Machine sensor data (Tool Wear, Torque, Rotational Speed, Temperature)[cite: 2].
+  - **Outputs:** System analysis results and risk scores (configured to generate locally).
+
+---
+
+## 🚀 How to Run the Pipeline & Generate Results
+
+Since the large result files are excluded from Git to keep the repository lightweight, you can generate the system results report locally on your machine by running the following command:
+
+```bash
+python Code/architecture_pipeline.py

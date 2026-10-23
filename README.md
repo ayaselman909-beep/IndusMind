@@ -9,11 +9,11 @@ After Download the zip file create Folder his name is "Dataset" and extract the 
 # Data Dictionary
 
 # Operating Parameters:
-  **Air temperature [K]:** The temperature of the air surrounding the machine (in Kelvin).
-  **Process temperature [K]:** The temperature of the machine during the manufacturing process (in Kelvin).
-  **Rotational speed [rpm]:** The rotational speed of the machine (in revolutions per minute).
-  **Torque [Nm]:** The turning force applied by the machine (in Newton-meters).
-  **Tool wear [min]:** The continuous operational time causing wear and tear on the cutting tool (in minutes).
+* **Air temperature [K]:** The temperature of the air surrounding the machine (in Kelvin).
+* **Process temperature [K]:** The temperature of the machine during the manufacturing process (in Kelvin).
+* **Rotational speed [rpm]:** The rotational speed of the machine (in revolutions per minute).
+* **Torque [Nm]:** The turning force applied by the machine (in Newton-meters).
+* **Tool wear [min]:** The continuous operational time causing wear and tear on the cutting tool (in minutes).
 
 # Failure Types (Targets):
   **TWF (Tool Wear Failure):** Machine downtime or failure caused by complete wear or breakage of the tool.

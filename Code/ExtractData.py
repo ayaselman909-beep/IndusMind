@@ -1,10 +1,11 @@
+from data_loader import load_dataset
 
-# install pandas before run 
-# Write in Trimnal " pip install pandas" 
+Machine_Data = load_dataset()
 
-import pandas as pd
-from pandas import Series , DataFrame
+print("first 5 recourds: ", Machine_Data.head())
 
-Machine_Data = pd.read_csv('Dataset/ai4i2020.csv') 
+print("\nDataset shape:", Machine_Data.shape)
 
-print(Machine_Data.head())
+print("\nDataset info:", Machine_Data.info())
+
+print("\nDataset Colmns:", Machine_Data.columns.tolist())

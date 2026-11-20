@@ -1,6 +1,6 @@
-import pandas as pd
+from data_loader import load_dataset
 
-df=pd.read_csv('Dataset/ai4i2020.csv')
+df=load_dataset()
 
 columns = [
     'Air temperature [K]',
@@ -19,7 +19,15 @@ def detect_iqr_outliers(df, columns):
         iqr=q3-q1
         lower_bound=q1-1.5*iqr
         upper_bound=q3+1.5*iqr
-        outliers = df[(df[col] < lower_bound) | (df[col] > upper_bound)][col].tolist()
+        outliers = []
+
+        for idx, row in df[(df[col] < lower_bound) | (df[col] > upper_bound)].iterrows():
+
+            outliers.append({
+                "UDI": int(row["UDI"]),
+                "value": round(float(row[col]), 2)
+            })
+            
         results[col] = {
             'lower_bound': lower_bound,
             'upper_bound': upper_bound,
@@ -29,15 +37,27 @@ def detect_iqr_outliers(df, columns):
     return results
 results = detect_iqr_outliers(df, columns)
 for col, res in results.items():
-    print(col,res)
-
+    print(f"\nFeature: {col}")
+    print(f"Lower Bound: {res['lower_bound']:.2f}")
+    print(f"Upper Bound: {res['upper_bound']:.2f}")
+    print(f"Outliers Count: {res['outliersCount']}")
+    print("Outliers:")
+    for item in res['outliers'][:5]:
+        print(item)
 def detect_zscore_outliers(df, columns):
     results ={}
     for col in columns:
         mean = df[col].mean()
         std = df[col].std()
         z_scores = (df[col] - mean) / std
-        outliers = df[(z_scores < -3) | (z_scores > 3)][col].tolist()
+        outliers =[]
+        for idx, row in df[(z_scores < -3) | (z_scores > 3)].iterrows():
+        
+            outliers.append({
+                "UDI": int(row["UDI"]),
+                "value": round(float(row[col]), 2)
+            })
+          
         results[col] = {
             'mean': mean,
             'std': std,
@@ -47,4 +67,10 @@ def detect_zscore_outliers(df, columns):
     return results
 results = detect_zscore_outliers(df, columns)
 for col, res in results.items():
-    print(col,res)
+    print(f"\nFeature: {col}")
+    print(f"Mean: {res['mean']:.2f}")
+    print(f"Std: {res['std']:.2f}")
+    print(f"Outliers Count: {res['outliersCount']}")
+    print("Outliers:")
+    for item in res['outliers'][:5]:
+        print(item)

@@ -30,4 +30,23 @@ def load_dataset() -> pd.DataFrame:
             f"Dataset not found at {DATASET_PATH}. "
             "Download it and extract it into the 'Dataset' folder (see README)."
         )
-    return pd.read_csv(DATASET_PATH)
+    df = pd.read_csv(DATASET_PATH)
+    missing_columns = [col for col in REQUIRED_COLUMNS if col not in df.columns]
+    if missing_columns:
+        raise ValueError(
+            f"Dataset is missing required columns: {missing_columns}. "
+        )
+    return df
+
+REQUIRED_COLUMNS=[
+    'UDI',
+    'Product ID',
+    'Type',
+    'Machine failure',
+    'TWF',
+    'HDF',
+    'PWF',
+    'OSF',
+    'RNF',
+    *SENSOR_COLUMNS.values()
+]

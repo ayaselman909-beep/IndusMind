@@ -23,11 +23,11 @@ OSF_LIMITS = {"L": 11000, "M": 12000, "H": 13000}
 SEVERITY_ORDER = {"normal": 0, "warning": 1, "critical": 2}
 
 RECOMMENDATIONS = {
-    "TWF": "Replace or inspect the cutting tool.",
-    "HDF": "Check the cooling system and airflow; reduce load until the temperature difference recovers.",
-    "PWF": "Check the power supply and motor load; torque/speed combination is outside the safe power range.",
-    "OSF": "Reduce the load or torque and inspect the tool; wear x torque is near/over the strain limit.",
-    "STATISTICAL": "Re-check the sensors and recent readings; values are unusual compared with the dataset.",
+    "TWF": " inspect the cutting tool for wear.",          
+    "HDF": "Inspect the cooling system and airflow.",
+    "PWF": "Inspect the power supply and motor load.",
+    "OSF": "Inspect the tool and review the applied load.",
+    "STATISTICAL":"Re-check the sensors and verify the unusual readings.",
 }
 
 def validate_reading(reading):
@@ -153,13 +153,14 @@ def analyze_machine(reading):
         return {"ok": False, "errors": errors}
 
     assumptions = []
-    derived = {
-        "temp_difference_k": round(clean["process_temperature"] - clean["air_temperature"], 2),
-        "power_w": round(clean["torque"] * clean["rotational_speed"] * 2 * math.pi / 60, 1),
-        "strain_minnm": round(clean["tool_wear"] * clean["torque"], 1),
+    derived_raw = {
+        "temp_difference_k": clean["process_temperature"] - clean["air_temperature"],
+        "power_w": clean["torque"] * clean["rotational_speed"] * 2 * math.pi / 60,
+        "strain_minnm": clean["tool_wear"] * clean["torque"],
     }
-    findings = _rule_findings(clean, derived, assumptions)
+    findings = _rule_findings(clean, derived_raw, assumptions)
     anomalies = _anomalies(clean)
+    derived={key: round(value, 2 if key=="temp_difference_k" else 1) for key, value in derived_raw.items()}
 
     if anomalies:
         names = ", ".join(a["feature"] for a in anomalies)
@@ -225,15 +226,21 @@ def recommend_maintenance(analysis):
             "message": "No rule was triggered, so no maintenance action is supported by the data.",
         }
 
-    actions = [
-        {
-            "failure_mode": f["failure_mode"],
-            "severity": f["severity"],
-            "action": RECOMMENDATIONS[f["failure_mode"]],
-            "based_on": f["evidence"],
-        }
-        for f in findings
-    ]
+    actions = []
+    for finding in findings:
+        failure_mode=finding["failure_mode"]
+        action=RECOMMENDATIONS.get(failure_mode)
+        if action is None:
+            continue
+        actions.append({
+            "failure_mode": failure_mode,
+            "severity": finding["severity"],
+            "action": action,
+            "based_on": finding["evidence"],
+        })
+       
+    
+    
     urgency = "immediate" if analysis["risk_level"] == "critical" else "scheduled"
     return {"ok": True, "urgency": urgency, "recommendations": actions}
 

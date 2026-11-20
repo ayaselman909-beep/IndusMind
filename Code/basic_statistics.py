@@ -33,5 +33,8 @@ if __name__ == "__main__":
     print()
     print(corr)
 
-    stats.to_csv(BASE_DIR / "Code" / "basic_statistics.csv")
-    corr.to_csv(BASE_DIR / "Code" / "correlation_matrix.csv")
+    output_dir = BASE_DIR / "Code"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    stats.to_csv(output_dir / "basic_statistics.csv",index_label="Feature")
+    corr.to_csv(output_dir / "correlation_matrix.csv", index_label="Feature")

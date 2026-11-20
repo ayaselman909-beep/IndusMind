@@ -45,7 +45,7 @@ def evaluate_live_reading(
     rotational_speed: float,
     torque: float,
     tool_wear: float,
-    product_type: str = "L",
+    product_type: str | None = None,
 ) -> str:
     """
     Evaluates custom or live sensor readings provided directly by the user in the chat.
@@ -78,12 +78,12 @@ def fetch_history(udi: int, limit: int = 5) -> str:
 
 def get_dataset_summary_and_alerts(limit: int = 10) -> str:
     """
-    Scans the dataset to provide overall statistics (total records, failure counts, available UDI range)
-    and lists sample UDI records that have recorded failures or need immediate maintenance.
-    Use this whenever the user asks general overview questions like:
-    - How many machines/records are in the dataset?
+    Provides historical dataset statistics and recorded failure examples.
+    Use this whenever the user asks :
+    - How many records are in the dataset?
     - What UDI numbers are available?
-    - Which machines need immediate maintenance or have failures?
+    - How many failures are recorded?
+    - Which  UDI numbers have recorded failures labels?
     """
     df = load_dataset()
     total_records = int(len(df))
@@ -92,9 +92,9 @@ def get_dataset_summary_and_alerts(limit: int = 10) -> str:
 
     failures_df = df[df["Machine failure"] == 1]
     total_failures = int(len(failures_df))
-
+    limit = max(1, min(int(limit), 100))  
     sample_alerts = []
-    for _, r in failures_df.head(int(limit)).iterrows():
+    for _, r in failures_df.head(limit).iterrows():
         modes = [m for m in ["TWF", "HDF", "PWF", "OSF", "RNF"] if int(r[m]) == 1]
         sample_alerts.append({
             "udi": int(r["UDI"]),
